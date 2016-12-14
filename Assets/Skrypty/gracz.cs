@@ -68,5 +68,11 @@ public class gracz : MonoBehaviour
                 ropeSprite.SetActive(false);
             }
         }
+
+        //escape
+        if (Input.GetKeyDown("escape"))
+        {
+            Application.LoadLevel(Application.loadedLevel);
+        }
 	}
 }
