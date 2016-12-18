@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class gracz : MonoBehaviour
+public class Gracz : MonoBehaviour
 {
 
     public GameObject pointer, pointerSprite, ropeSprite;

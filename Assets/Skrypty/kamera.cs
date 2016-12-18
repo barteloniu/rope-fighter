@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class kamera : MonoBehaviour
+public class Kamera : MonoBehaviour
 {
 
     public GameObject gracz;
@@ -20,12 +20,12 @@ public class kamera : MonoBehaviour
 	void Update ()
     {
 
-        if (gracz.GetComponent<gracz>().lerp)
+        if (gracz.GetComponent<Gracz>().lerp)
         {
             beforeLerp = true;
         }
 
-        if (!gracz.GetComponent<gracz>().lerp && beforeLerp)
+        if (!gracz.GetComponent<Gracz>().lerp && beforeLerp)
         {
             beforeLerp = false;
             startPos = transform.position;
