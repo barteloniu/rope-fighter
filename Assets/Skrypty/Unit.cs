@@ -4,13 +4,14 @@ using System.Collections;
 public class Unit : MonoBehaviour
 {
     public Transform target;
-    float speed = 20;
+    float speed = 10;
     Vector3[] path;
+    Vector3 lastTargetPos = new Vector3(0, 0, 1);
     int targetIndex;
 
     void Start()
     {
-        PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+        StartCoroutine("CheckGraczPos");
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -18,8 +19,22 @@ public class Unit : MonoBehaviour
         if (pathSuccessful)
         {
             path = newPath;
+            targetIndex = 0;
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
+        }
+    }
+
+    IEnumerator CheckGraczPos()
+    {
+        while (true)
+        {
+            if(target.position != lastTargetPos)
+            {
+                PathRequestManager.RequestPath(transform.position, target.position, OnPathFound);
+                lastTargetPos = target.position;
+            }
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
@@ -40,6 +55,11 @@ public class Unit : MonoBehaviour
             }
 
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
+            if(transform.position != path[path.Length - 1])
+            {
+                float angle = Mathf.Atan2(currentWaypoint.y - transform.position.y, currentWaypoint.x - transform.position.x) * (180 / Mathf.PI);
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
             yield return null;
         }
     }
